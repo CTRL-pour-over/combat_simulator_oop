@@ -1,6 +1,4 @@
-from entity import entity
-import colored
-import random
+from src.entity import entity
 
 class player_child(entity):
     name = input("Enter Your Name: ")
