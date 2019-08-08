@@ -1,8 +1,7 @@
-from player import player_child
-from enemy import enemy_child
-from manager import Manager
-import random
-import time
+from src import player
+from src import enemy
+from src.manager import Manager
+
 from colored import fg, bg, attr
 
 #tree: ============ entity_class ===============
