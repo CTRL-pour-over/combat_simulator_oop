@@ -2,8 +2,8 @@ import time
 import random
 from colored import fg, bg, attr
 from os import system, name
-from player import player_child
-from enemy import enemy_child
+from src.player import player_child
+from src.enemy import enemy_child
 
 class Manager(object):
     game_over = False
