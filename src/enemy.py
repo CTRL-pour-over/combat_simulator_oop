@@ -1,4 +1,4 @@
-from entity import entity
+from src.entity import entity
 from colored import fg
 
 class enemy_child(entity):
