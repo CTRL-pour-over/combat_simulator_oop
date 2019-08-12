@@ -1,5 +1,6 @@
 import time
 import random
+import sys
 from colored import fg, bg, attr
 from os import system, name
 from src.player import player_child
@@ -9,18 +10,22 @@ class Manager(object):
     game_over = False
     def __init__(self):
         self.game_over = False
-        self.enemy_ai = enemy_child("Enemy AI", 150, enemy_child.damage, enemy_child.defense)
-        self.player_1 = player_child(player_child.name, 100, player_child.damage, player_child.defense)
+        self.enemy_ai = enemy_child("%sEnemy AI" % (fg(1)))
+        self.player_1 = player_child(input("\n\n%s ENTER YOUR NAME >>> " % (fg(2))))
 
     def game_start(self):
-        print("""\t\t ===============================================================
-                 ===============================================================
-                 =_=_=_=_=_=_=_=_=_=_=_=_ W E L C O M E _=_=_=_=_=_=_=_=_=_=_=_=
-                 _=_=_=_=_=_=_=_=_=_=_=_=_=_=_ T O _=_=_=_=_=_=_=_=_=_=_=_=_=_=_
-                 -=-=-=-=-=-=-=-=-=-=-=-=-=-= T H E =-=-=-=-=-=-=-=-=-=-=-=-=-=-
-                 ___________________________ G A M E ___________________________
-                 ===============================================================
-                 ===============================================================""")
+        welcome_screen = """\t===============================================================
+        ===============================================================
+        =_=_=_=_=_=_=_=_=_=_=_=_ W E L C O M E _=_=_=_=_=_=_=_=_=_=_=_=        
+        _=_=_=_=_=_=_=_=_=_=_=_=_=_=_ T O _=_=_=_=_=_=_=_=_=_=_=_=_=_=_        
+        -=-=-=-=-=-=-=-=-=-=-=-=-=-= T H E =-=-=-=-=-=-=-=-=-=-=-=-=-=-        
+        ___________________________ G A M E ___________________________        
+        ===============================================================        
+        ==============================================================="""
+        for i in welcome_screen:
+            sys.stdout.write(i)
+            sys.stdout.flush()
+            time.sleep(0.008)
 
     def print_end_screen(self):
         print("""\t\t =
@@ -43,27 +48,42 @@ class Manager(object):
         self.enemy_ai.render_status()
 
     def input_management(self):
-        option_select = int(input("""OPTIONS
-                            1: ----Attack-----
-                            2: ----Defend-----
-                            Choose: >>>  """))
-        if option_select == 1:
-            self.violate_opponent()
-        elif option_select == 2:
-            self.defend_incoming_attack(enemy_child)
-        else:
-            print("You fumble before your enemy. What a disgrace.")
-            self.player_1.health = self.player_1.health - 50
-            print("-50 hp")
-        
+        try:
+            option_select = int(input("""%s OPTIONS
+                                1: ----Attack-----
+                                2: ----Defend-----
+                                3: ----Roll For Damage Buff----
+                                4: ----Roll For Defense Buff----
+                                5: ----Eat An Apple----
+                                Choose: >>>  """ % fg(10)))
+            if option_select == 1:
+                self.violate_opponent()
+            elif option_select == 2:
+                self.defend_incoming_attack(self.enemy_ai)
+            elif option_select == 3:
+                self.player_1.roll_for_damage()
+            elif option_select == 4:
+                self.player_1.roll_for_defense()
+            elif option_select == 5:
+                self.player_1.eat_apple()
+            else:
+                print("You fumble before your enemy. What a disgrace.")
+                self.player_1.health = self.player_1.health - 50
+                print("-50 hp")
+        except ValueError:
+            print("\nOops! That was not a valid number. s o r r y . . .      T_T\n")
+
+    def enemy_do_dmg(self, argument):
+        print("%s Enemy about to inflict " % (fg(1)), self.enemy_ai.damage, "%s Type damage on your ass." % (fg(1)))
+        self.player_1.health = self.player_1.health - self.enemy_ai.damage
 # damage functionality. should be able to manipulate variables from player_child and enemy_child
     def violate_opponent(self):
         self.enemy_ai.health = self.enemy_ai.health - self.player_1.damage
         print(self.enemy_ai.health)
       
     def defend_incoming_attack(self, argument):
-        print("%s Player deflecting " % (fg(2)), argument.defense)
-        argument.damage = argument.damage - player_child.defense
-        print("%s Player taking " % (fg(2)), argument.damage)
-        player_child.health = player_child.health - argument.damage
-        print("%s Player: " % (fg(2)), player_child.health)
+        print("%s Player deflecting " % (fg(2)), self.player_1.defense, "Incoming damage")
+        calculated_damage_done = self.enemy_ai.damage - self.player_1.defense
+        print("Player taking ", calculated_damage_done, "damage")
+        self.player_1.take_damage(calculated_damage_done)
+        print("Player: ", self.player_1.health, "current health")
