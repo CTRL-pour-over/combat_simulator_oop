@@ -7,11 +7,11 @@ class entity(object):
     
     
 # instantiate the entity object
-    def __init__(self, name = "Default Entity", health = 100, damage = random.randrange(1, 100), defense = random.randrange(1, 100)):
-        self.name = name
-        self.health = health
-        self.damage = damage
-        self.defense = defense
+    def __init__(self, arg_name = "Default Entity", arg_health = 100, arg_damage = random.randrange(1, 100), arg_defense = random.randrange(1, 100)):
+        self.name = arg_name
+        self.health = arg_health
+        self.damage = arg_damage
+        self.defense = arg_defense
 
     def render_status(self):
         print("\n\nName: ", self.name)        
@@ -34,8 +34,8 @@ class entity(object):
         print("New Defense Stat: ", self.defense)
 
     def eat_apple(self):
-        calculated_health_buff = self.health + random.randrange(-25, 200)
+        calculated_health_buff = random.randrange(-25, 200)
         print("calculated_health_buff: ", calculated_health_buff)
         print('mmm, that was tasty. ', self.health, "+", calculated_health_buff, "hp")
-        self.health = calculated_health_buff
+        self.health = calculated_health_buff + self.health
         print(self.health)
