@@ -1,5 +1,5 @@
 from src.entity import entity
-
+from colored import fg
 class player_child(entity):
     name = "Default Player"
     experience = 0
@@ -10,3 +10,8 @@ class player_child(entity):
         self.damage = arg_damage
         self.defense = arg_defense
 
+    def render_status(self):
+        print("\n\n%sName: " % fg(2), self.name)        
+        print("%sHealth: "% fg(2), self.health) 
+        print("%sDamage: "% fg(2), self.damage) 
+        print("%sDefense: "% fg(2), self.defense) 
