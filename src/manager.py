@@ -49,13 +49,13 @@ class Manager(object):
 
     def input_management(self):
         try:
-            option_select = int(input("""%sOPTIONS
+            option_select = int(input("""%s\n\t\t\tOPTIONS:
                                 1: ----Attack-----
                                 2: ----Defend-----
                                 3: ----Roll For Damage Buff----
                                 4: ----Roll For Defense Buff----
                                 5: ----Eat An Apple----
-                                Choose: >>>  """))
+                                Choose: >>>  """ % fg(117)))
             if option_select == 1:
                 self.violate_opponent()
             elif option_select == 2:
@@ -73,9 +73,12 @@ class Manager(object):
         except ValueError:
             print("\nOops! That was not a valid number. s o r r y . . .      T_T\n")
 
+    def enemy_threat_dmg(self):
+        print("%s\nEnemy about to inflict" % fg(130), self.enemy_ai.damage, "Type damage on your ass.")
+
     def enemy_do_dmg(self, argument):
-        print(" Enemy about to inflict ", self.enemy_ai.damage, " Type damage on your ass." )
         self.player_1.health = self.player_1.health - self.enemy_ai.damage
+        print("Enemy strikes swiftly, dealing", self.enemy_ai.damage, "attack damage.")
 # damage functionality. should be able to manipulate variables from player_child and enemy_child
     def violate_opponent(self):
         self.enemy_ai.health = self.enemy_ai.health - self.player_1.damage
