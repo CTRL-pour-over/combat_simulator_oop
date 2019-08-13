@@ -10,8 +10,8 @@ class Manager(object):
     game_over = False
     def __init__(self):
         self.game_over = False
-        self.enemy_ai = enemy_child("%sEnemy AI" % (fg(1)))
-        self.player_1 = player_child(input("\n\n%s ENTER YOUR NAME >>> " % (fg(2))))
+        self.enemy_ai = enemy_child("Enemy AI")
+        self.player_1 = player_child(input("\n\nENTER YOUR NAME >>> "))
 
     def game_start(self):
         welcome_screen = """\t===============================================================
@@ -49,13 +49,13 @@ class Manager(object):
 
     def input_management(self):
         try:
-            option_select = int(input("""%s OPTIONS
+            option_select = int(input("""%sOPTIONS
                                 1: ----Attack-----
                                 2: ----Defend-----
                                 3: ----Roll For Damage Buff----
                                 4: ----Roll For Defense Buff----
                                 5: ----Eat An Apple----
-                                Choose: >>>  """ % fg(10)))
+                                Choose: >>>  """))
             if option_select == 1:
                 self.violate_opponent()
             elif option_select == 2:
@@ -74,7 +74,7 @@ class Manager(object):
             print("\nOops! That was not a valid number. s o r r y . . .      T_T\n")
 
     def enemy_do_dmg(self, argument):
-        print("%s Enemy about to inflict " % (fg(1)), self.enemy_ai.damage, "%s Type damage on your ass." % (fg(1)))
+        print(" Enemy about to inflict ", self.enemy_ai.damage, " Type damage on your ass." )
         self.player_1.health = self.player_1.health - self.enemy_ai.damage
 # damage functionality. should be able to manipulate variables from player_child and enemy_child
     def violate_opponent(self):
@@ -82,7 +82,7 @@ class Manager(object):
         print(self.enemy_ai.health)
       
     def defend_incoming_attack(self, argument):
-        print("%s Player deflecting " % (fg(2)), self.player_1.defense, "Incoming damage")
+        print("Player deflecting ", self.player_1.defense, "Incoming damage")
         calculated_damage_done = self.enemy_ai.damage - self.player_1.defense
         print("Player taking ", calculated_damage_done, "damage")
         self.player_1.take_damage(calculated_damage_done)
