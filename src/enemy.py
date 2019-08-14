@@ -12,7 +12,7 @@ class enemy_child(entity):
         self.defense = arg_defense
 
     def render_status(self):
-        print("\n\n%sName: " % fg(1), self.name)        
+        print("\n%sName: " % fg(1), self.name)        
         print("%sHealth: "% fg(1), self.health) 
         print("%sDamage: "% fg(1), self.damage) 
         print("%sDefense: "% fg(1), self.defense) 
