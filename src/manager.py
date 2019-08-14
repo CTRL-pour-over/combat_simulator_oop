@@ -13,6 +13,21 @@ class Manager(object):
         self.enemy_ai = enemy_child("Enemy AI")
         self.player_1 = player_child(input("\n\nENTER YOUR NAME >>> "))
 
+    loser_end_screen = """\t\t =
+                 ===============================================================
+                 =_=_=_=_=_=_=_=_=_=_=_=_=_=_ G A M E _=_=_=_=_=_=_=_=_=_=_=_=_=
+                 _=_=_=_=_=_=_=_=_=_=_=_=_=_ O V E R _=_=_=_=_=_=_=_=_=_=_=_=_=_
+                 -=-=-=-=-=-=-=-=-=-=-=-=-=-= Y O U =-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                 ___________________________ S U C K ___________________________
+                 ==============================================================="""
+    
+    winner_end_screen = """===============================================================
+                 =_=_=_=_=_=_=_=_=_=_=_=_=_=_ F A M E _=_=_=_=_=_=_=_=_=_=_=_=_=
+                 _=_=_=_=_=_=_=_=_=_=_=_=_=_ G L O R Y _=_=_=_=_=_=_=_=_=_=_=_=_=_
+                 -=-=-=-=-=-=-=-=-=-=-=-=-=-= A + K I L L E R =-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                 _______________________ A M A Z I N G  J O B ___________________________
+                 ==============================================================="""
+    
     def game_start(self):
         welcome_screen = """\t===============================================================
         ===============================================================
@@ -21,21 +36,19 @@ class Manager(object):
         -=-=-=-=-=-=-=-=-=-=-=-=-=-= T H E =-=-=-=-=-=-=-=-=-=-=-=-=-=-        
         ___________________________ G A M E ___________________________        
         ===============================================================        
-        ==============================================================="""
+        ===============================================================\n\n"""
         for i in welcome_screen:
             sys.stdout.write(i)
             sys.stdout.flush()
             time.sleep(0.008)
 
-    def print_end_screen(self):
-        print("""\t\t =
-                 ===============================================================
-                 =_=_=_=_=_=_=_=_=_=_=_=_=_=_ G A M E _=_=_=_=_=_=_=_=_=_=_=_=
-                 _=_=_=_=_=_=_=_=_=_=_=_=_=_ O V E R _=_=_=_=_=_=_=_=_=_=_=_=_=_=_
-                 -=-=-=-=-=-=-=-=-=-=-=-=-=-= Y O U =-=-=-=-=-=-=-=-=-=-=-=-=-=-
-                 ___________________________ S U C K ___________________________
-                 ===============================================================
-                 ===============================================================""")
+    def print_screen(self, arg_screen): 
+        for i in arg_screen:
+            sys.stdout.write(i)
+            sys.stdout.flush()
+            time.sleep(0.008)
+
+    
 
     def clear(self):
         if name == 'nt':
@@ -59,7 +72,7 @@ class Manager(object):
             if option_select == 1:
                 self.violate_opponent()
             elif option_select == 2:
-                self.defend_incoming_attack(self.enemy_ai)
+                self.defend_incoming_attack(self.enemy_ai.damage)
             elif option_select == 3:
                 self.player_1.roll_for_damage()
             elif option_select == 4:
@@ -76,17 +89,18 @@ class Manager(object):
     def enemy_threat_dmg(self):
         print("%s\nEnemy about to inflict" % fg(130), self.enemy_ai.damage, "Type damage on your ass.")
 
-    def enemy_do_dmg(self, argument):
-        self.player_1.health = self.player_1.health - self.enemy_ai.damage
-        print("Enemy strikes swiftly, dealing", self.enemy_ai.damage, "attack damage.")
+    def enemy_do_dmg(self, situational_enemy_damage):
+        situational_enemy_damage = self.enemy_ai.damage
+        self.player_1.health = self.player_1.health - situational_enemy_damage
+        print("\n", self.enemy_ai.name, "strikes swiftly, dealing", situational_enemy_damage, "attack damage.")
 # damage functionality. should be able to manipulate variables from player_child and enemy_child
     def violate_opponent(self):
         self.enemy_ai.health = self.enemy_ai.health - self.player_1.damage
-        print(self.enemy_ai.health)
+        print("\n", self.player_1.name ," pounces on the enemy, dealing", self.player_1.damage, "damage. Leaving the enemy with", self.enemy_ai.health, "hp...", self.player_1.name, ", you are determined.")
       
     def defend_incoming_attack(self, argument):
         print("Player deflecting ", self.player_1.defense, "Incoming damage")
         calculated_damage_done = self.enemy_ai.damage - self.player_1.defense
         print("Player taking ", calculated_damage_done, "damage")
-        self.player_1.take_damage(calculated_damage_done)
+        self.player_1.health = self.player_1.health - calculated_damage_done
         print("Player: ", self.player_1.health, "current health")
