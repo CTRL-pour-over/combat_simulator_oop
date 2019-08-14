@@ -11,7 +11,7 @@ class player_child(entity):
         self.defense = arg_defense
 
     def render_status(self):
-        print("\n\n%sName: " % fg(2), self.name)        
+        print("\n%sName: " % fg(2), self.name)        
         print("%sHealth: "% fg(2), self.health) 
         print("%sDamage: "% fg(2), self.damage) 
         print("%sDefense: "% fg(2), self.defense) 
