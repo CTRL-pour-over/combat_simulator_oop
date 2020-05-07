@@ -1,2 +1,2 @@
-# combat_simulator_oop
-Practicing Class Inheritance with Python 3
+# mini_battle_game
+Practicing OOP Inheritance with Python 3
